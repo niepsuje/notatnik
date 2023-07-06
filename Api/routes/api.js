@@ -1,9 +1,8 @@
 const express = require('express');
 const router = express.Router();
 
+const testAction = require('../actions/api/test');
 
-router.get('/', (req, res) => {
-    res.send('Server działa!');
-});
+router.get('/', testAction.homepage);
 
 module.exports = router;
