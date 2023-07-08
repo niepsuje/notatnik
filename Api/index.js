@@ -7,7 +7,7 @@ const apiRouter = require('./routes/api')
 require('./db/mongoose'); 
 
 // routers
-// app.use('/', apiRouter);
+app.use('/', apiRouter);
 
 // server
 app.listen(port, () => {
