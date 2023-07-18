@@ -15,9 +15,6 @@ function Note(props) {
             { showDesc && (
                 <div className='description'>{props.body}</div>
             )}
-            {/* {true ? (
-                <div className='description'>{props.body}</div>
-            ) : null} */}
             <button>edytuj</button>
             <button 
                 className="delete" 

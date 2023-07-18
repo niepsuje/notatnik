@@ -1,6 +1,7 @@
 import React from 'react';
 import './Notes.css';
 import Note from './Note/Note';
+import NewNote from './NewNote/NewNote'
 
 // komponent klasowy
 
@@ -30,11 +31,21 @@ class Notes extends React.Component {
         this.setState({ notes });
     }
 
+    addNote(note) {
+        const notes = [...this.state.notes];  // aktualny state notatek
+        notes.push(note);                   // nowa notatka
+        this.setState({ notes })            // nowy state
+    }
+
     render() {
         
         return (
         <div>
             <p>Moje notatki:</p>
+
+            <NewNote 
+                onAdd={(note) => this.addNote(note)}  // nazywamy sobie parametr który przekażemy - onAdd -> funkcja
+            />
 
             {this.state.notes.map(note => (
                 <Note 
