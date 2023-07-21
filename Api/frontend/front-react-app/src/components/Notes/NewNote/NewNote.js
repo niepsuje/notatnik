@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 
 function NewNote(props) {
 
+    const [showForm, setShowForm] = useState(false);
     const [title, setTitle] = useState('');
     const [desc, setDesc] = useState('');
 
@@ -23,22 +24,27 @@ function NewNote(props) {
 
         setTitle('');
         setDesc('');
+        setShowForm(false);
     }
 
     return (
-        <div className="note">
-            <label>Tytuł</label>
-            <input type="text" 
-                value={title} 
-                onChange={changeTitleHandler} />
-            <br/>
-            <label>Opis:</label>
-            <input type="text"
-                value={desc} 
-                onChange={changeDescHandler} />
+        showForm ? (
+            <div className="note">
+                <label>Tytuł</label>
+                <input type="text" 
+                    value={title} 
+                    onChange={changeTitleHandler} />
+                <br/>
+                <label>Opis:</label>
+                <input type="text"
+                    value={desc} 
+                    onChange={changeDescHandler} />
 
-            <button onClick={() => addNote()}>Dodaj notatkę</button>
-        </div>
+                <button onClick={() => addNote()}>Dodaj notatkę</button>
+            </div>
+        ) : (
+            <button onClick={() => setShowForm(true)}>Nowa notatka</button>
+        )
     );
 }
 
