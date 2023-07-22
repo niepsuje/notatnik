@@ -1,7 +1,9 @@
 import React from 'react';
 import './Notes.css';
 import Note from './Note/Note';
-import NewNote from './NewNote/NewNote'
+import NewNote from './NewNote/NewNote';
+import EditNote from '../EditNote/EditNote';
+import Modal from 'react-modal';
 
 // komponent klasowy
 
@@ -21,7 +23,8 @@ class Notes extends React.Component {
                     title: 'Zrobić zakupy',
                     body: 'kupić mleko, masło, jaja, orzechy'
                 }
-            ]
+            ],
+            showEditModal: false
         };
     }
 
@@ -32,9 +35,28 @@ class Notes extends React.Component {
     }
 
     addNote(note) {
-        const notes = [...this.state.notes];  // aktualny state notatek
+        const notes = [...this.state.notes];  // dotychczasowy state notatek
         notes.push(note);                   // nowa notatka
         this.setState({ notes })            // nowy state
+    }
+
+    editNote(note) {
+        const notes = [...this.state.notes];  // dotychczasowy state notatek
+        const index = notes.findIndex(x => x.id === note.id);
+        if (index >= 0) {
+            notes[index] = note;
+        }
+        this.setState({ notes })
+    }
+
+    toggleModal() {
+        this.setState({ 
+            showEditModal: !this.state.showEditModal 
+        });
+    }
+
+    editNoteHandler() {
+        this.toggleModal();
     }
 
     render() {
@@ -47,12 +69,20 @@ class Notes extends React.Component {
                 onAdd={(note) => this.addNote(note)}  // nazywamy sobie parametr który przekażemy - onAdd -> funkcja
             />
 
+            <Modal
+                isOpen={this.showEditModal}
+                contentLabel="Edytuj notatki">
+                <EditNote
+                    onEdit={note => this.editNote(note)} />
+            </Modal>
+
             {this.state.notes.map(note => (
                 <Note 
                     key={note.id}
                     title={note.title}
                     body={note.body}
                     id={note.id}
+                    onEdit={(note) => this.editNoteHandler(note)}
                     onDelete={(id) => this.deleteNote(note.id)}  />  // przekazuje funkcję deleteNote
                
             ))}
@@ -64,3 +94,7 @@ class Notes extends React.Component {
 }
 
 export default Notes;
+
+
+
+/// min 32.00 !!
