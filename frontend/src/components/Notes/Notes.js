@@ -20,7 +20,8 @@ class Notes extends React.Component {
   }
 
   componentDidMount() {
-    this.fetchNotes()
+    this.fetchNotes();
+    Modal.setAppElement('#root'); // Ustawienie głównego kontenera aplikacji dla react-modal
   }
 
   async fetchNotes() {
@@ -30,18 +31,27 @@ class Notes extends React.Component {
     this.setState({ notes });
   }
 
-  deleteNote(id) {
+  async deleteNote(id) {
     const notes = [...this.state.notes].filter(note => note.id !== id);
+    await axios.delete('http://localhost:3001/api/notes/' + id)
     this.setState({ notes });
   }
 
-  addNote(note) {
+  async addNote(note) {
     const notes = [...this.state.notes];
-    notes.push(note);
+    // add to backend
+    const res = await axios.post('http://localhost:3001/api/notes', note);
+    const newNote = res.data
+    // add to frontend
+    notes.push(newNote);
     this.setState({ notes });
   }
 
-  editNote(note) {
+  async editNote(note) {
+    // edit backend 
+    await axios.put('http://localhost:3001/api/notes/' + note._id, note)
+
+    // edit frontend
     const notes = [...this.state.notes];
     const index = notes.findIndex(x => x._id === note._id);
     if (index >= 0) {
